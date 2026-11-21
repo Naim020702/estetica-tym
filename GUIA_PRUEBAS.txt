@@ -1,0 +1,74 @@
+===============================================================================
+ESTÉTICA T&M - GUÍA RÁPIDA DE EJECUCIÓN Y PRUEBAS (MVP)
+===============================================================================
+
+1. CONFIGURACIÓN INICIAL (.env)
+-------------------------------
+En la raíz del proyecto, copiar el archivo de ejemplo:
+  Copy-Item .env.example .env
+
+Variables principales por defecto en .env:
+  PORT=8080
+  ADMIN_PIN=1234
+  DATABASE_URL=postgres://estetica:estetica123@localhost:5432/estetica_tym?sslmode=disable
+
+2. LEVANTAR BASE DE DATOS POSTGRESQL
+------------------------------------
+Opción A (Con Docker Compose):
+  docker compose up -d
+
+Opción B (PostgreSQL instalado localmente):
+  Crear una base de datos llamada "estetica_tym" y actualizar las credenciales
+  DB_USER / DB_PASSWORD / DATABASE_URL en el archivo .env.
+
+3. EJECUTAR EL BACKEND (GOLANG)
+-------------------------------
+El backend aplica automáticamente la migración SQL (backend/migrations/001_init.sql)
+y carga los datos iniciales de prueba si la base está vacía:
+
+  cd backend
+  go run ./cmd/api
+
+Servidor disponible en: http://localhost:8080/api/health
+
+4. EJECUTAR EL FRONTEND (REACT + TYPESCRIPT + TAILWIND)
+-------------------------------------------------------
+En una segunda terminal:
+
+  cd frontend
+  npm install
+  npm run dev
+
+Aplicación web disponible en: http://localhost:5173
+
+5. PASO A PASO PARA PROBAR EL FLUJO COMPLETO
+--------------------------------------------
+A) Ruta Pública (http://localhost:5173/):
+   - Acceso directo sin login.
+   - Muestra únicamente el catálogo publicado (entorno 'live') y los ítems visibles.
+   - Probar el botón Sol/Luna en el header para alternar Modo Claro / Oscuro.
+   - Probar los accesos directos a WhatsApp (en header, tarjetas, footer y botón flotante),
+     Instagram y Google Maps.
+
+B) Ruta de Administración (http://localhost:5173/admin):
+   - Solicita el PIN maestro configurado en el backend (por defecto: 1234).
+   - Se guarda en localStorage para no pedirlo en cada recarga (puede cerrarse
+     desde el botón de salir en la esquina superior derecha).
+
+C) Edición en Borrador (Draft) y Aislamiento:
+   - En "Modo Edición", crear un ítem, editar precios/textos, editar enlaces de
+     WhatsApp/Instagram/Maps o pulsar "Ocultar" sobre una tarjeta.
+   - Abrir http://localhost:5173/ en otra pestaña y verificar que la web pública
+     NO se ve afectada mientras los cambios están en Borrador.
+
+D) Modo Vista Previa:
+   - En la barra superior de /admin, alternar a "Modo Vista Previa".
+   - Se ocultan todos los botones de edición y los ítems ocultos, mostrando
+     exactamente cómo quedará la web pública antes de publicar.
+
+E) Publicar o Descartar Cambios:
+   - "Publicar cambios": Ejecuta la transacción SQL en PostgreSQL que copia todo
+     el estado Draft hacia Live. Al recargar http://localhost:5173/, los cambios
+     ya son visibles para todo el público.
+   - "Descartar cambios": Restaura el estado Draft copiando nuevamente desde Live.
+===============================================================================
