@@ -22,11 +22,14 @@ CREATE TABLE IF NOT EXISTS site_settings (
     hero_subtitle TEXT NOT NULL,
     whatsapp_url TEXT NOT NULL,
     instagram_url TEXT NOT NULL,
-    maps_url TEXT NOT NULL,
-    address_text VARCHAR(255) NOT NULL,
-    opening_hours VARCHAR(255) NOT NULL,
+    maps_url TEXT NOT NULL DEFAULT '',
+    pinterest_url TEXT NOT NULL DEFAULT '',
+    address_text VARCHAR(255) NOT NULL DEFAULT '',
+    opening_hours VARCHAR(255) NOT NULL DEFAULT '',
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE site_settings ADD COLUMN IF NOT EXISTS pinterest_url TEXT NOT NULL DEFAULT '';
 
 CREATE TABLE IF NOT EXISTS catalog_items (
     id SERIAL PRIMARY KEY,

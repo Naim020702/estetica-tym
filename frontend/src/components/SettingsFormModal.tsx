@@ -145,42 +145,52 @@ export const SettingsFormModal: React.FC<SettingsFormModalProps> = ({
 
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">
-              Enlace Directo de WhatsApp (wa.me)
+              Enlace Directo de WhatsApp (Opcional)
             </label>
             <input
               type="url"
-              required
               value={form.whatsappUrl}
               onChange={(e) => setForm({ ...form, whatsappUrl: e.target.value })}
-              placeholder="https://wa.me/54911..."
+              placeholder="https://wa.me/54911... (Dejar vacío para ocultar)"
               className="mt-1.5 w-full rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-3.5 py-2.5 text-sm text-stone-900 dark:text-white focus:border-rosebrand-500 focus:outline-none"
             />
           </div>
 
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">
-              Enlace de Instagram Oficial
+              Enlace de Instagram Oficial (Opcional)
             </label>
             <input
               type="url"
-              required
               value={form.instagramUrl}
               onChange={(e) => setForm({ ...form, instagramUrl: e.target.value })}
-              placeholder="https://instagram.com/..."
+              placeholder="https://instagram.com/... (Dejar vacío para ocultar)"
               className="mt-1.5 w-full rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-3.5 py-2.5 text-sm text-stone-900 dark:text-white focus:border-rosebrand-500 focus:outline-none"
             />
           </div>
 
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">
-              Enlace de Ubicación en Google Maps
+              Enlace de Ubicación en Google Maps (Opcional)
             </label>
             <input
               type="url"
-              required
               value={form.mapsUrl}
               onChange={(e) => setForm({ ...form, mapsUrl: e.target.value })}
-              placeholder="https://maps.google.com/?q=..."
+              placeholder="https://maps.google.com/?q=... (Dejar vacío para ocultar)"
+              className="mt-1.5 w-full rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-3.5 py-2.5 text-sm text-stone-900 dark:text-white focus:border-rosebrand-500 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">
+              Enlace de Colección de Pinterest / Nails Inspo (Opcional)
+            </label>
+            <input
+              type="url"
+              value={form.pinterestUrl || ''}
+              onChange={(e) => setForm({ ...form, pinterestUrl: e.target.value })}
+              placeholder="https://pinterest.com/... (Dejar vacío para ocultar)"
               className="mt-1.5 w-full rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-3.5 py-2.5 text-sm text-stone-900 dark:text-white focus:border-rosebrand-500 focus:outline-none"
             />
           </div>

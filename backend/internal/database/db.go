@@ -41,6 +41,7 @@ func runMigrations(db *sql.DB) error {
 		"migrations/001_init.sql",
 		"backend/migrations/001_init.sql",
 		filepath.Join("..", "migrations", "001_init.sql"),
+		filepath.Join("..", "..", "migrations", "001_init.sql"),
 	}
 
 	var sqlBytes []byte
@@ -77,8 +78,8 @@ func seedInitialData(db *sql.DB, cfg *config.Config) error {
 		insertSettings := `
 			INSERT INTO site_settings (
 				env, business_name, tagline, hero_title, hero_subtitle,
-				whatsapp_url, instagram_url, maps_url, address_text, opening_hours
-			) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+				whatsapp_url, instagram_url, maps_url, pinterest_url, address_text, opening_hours
+			) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 		`
 		for _, env := range []string{"live", "draft"} {
 			_, err := tx.Exec(
@@ -91,6 +92,7 @@ func seedInitialData(db *sql.DB, cfg *config.Config) error {
 				cfg.WhatsAppURL,
 				cfg.InstagramURL,
 				cfg.MapsURL,
+				cfg.PinterestURL,
 				"Av. Santa Fe 2450, Palermo, CABA",
 				"Martes a Sábados de 9:30 a 20:00 hs",
 			)

@@ -6,6 +6,7 @@ import {
   MapPin,
   MessageCircle,
   Moon,
+  Palette,
   Pencil,
   Plus,
   Search,
@@ -73,6 +74,13 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
     });
   }, [displayItems, selectedCategory, selectedType, searchQuery]);
 
+  const hasWhatsapp = Boolean(settings.whatsappUrl?.trim());
+  const hasInstagram = Boolean(settings.instagramUrl?.trim());
+  const hasMaps = Boolean(settings.mapsUrl?.trim());
+  const hasPinterest = Boolean(settings.pinterestUrl?.trim());
+  const hasAddress = Boolean(settings.addressText?.trim());
+  const hasHours = Boolean(settings.openingHours?.trim());
+
   return (
     <div className="min-h-screen flex flex-col bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 transition-colors duration-200">
       {/* Header Principal */}
@@ -108,38 +116,57 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               </button>
             )}
 
-            <a
-              href={settings.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Contactar por WhatsApp"
-              aria-label="WhatsApp"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500 hover:text-white transition-colors"
-            >
-              <MessageCircle className="h-4 w-4" />
-            </a>
+            {hasWhatsapp && (
+              <a
+                href={settings.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Contactar por WhatsApp"
+                aria-label="WhatsApp"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500 hover:text-white transition-colors"
+              >
+                <MessageCircle className="h-4 w-4" />
+              </a>
+            )}
 
-            <a
-              href={settings.instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Visitar Instagram Oficial"
-              aria-label="Instagram"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-pink-500/10 text-pink-600 dark:text-pink-400 hover:bg-pink-500 hover:text-white transition-colors"
-            >
-              <Instagram className="h-4 w-4" />
-            </a>
+            {hasInstagram && (
+              <a
+                href={settings.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Visitar Instagram Oficial"
+                aria-label="Instagram"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-pink-500/10 text-pink-600 dark:text-pink-400 hover:bg-pink-500 hover:text-white transition-colors"
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
+            )}
 
-            <a
-              href={settings.mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Ver ubicación en Google Maps"
-              aria-label="Google Maps"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:bg-sky-500 hover:text-white transition-colors"
-            >
-              <MapPin className="h-4 w-4" />
-            </a>
+            {hasPinterest && (
+              <a
+                href={settings.pinterestUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Ver Nails Inspo en Pinterest"
+                aria-label="Pinterest Nails Inspo"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white transition-colors"
+              >
+                <Palette className="h-4 w-4" />
+              </a>
+            )}
+
+            {hasMaps && (
+              <a
+                href={settings.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Ver ubicación en Google Maps"
+                aria-label="Google Maps"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:bg-sky-500 hover:text-white transition-colors"
+              >
+                <MapPin className="h-4 w-4" />
+              </a>
+            )}
 
             <button
               type="button"
@@ -176,68 +203,97 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
             </p>
 
             {/* Información rápida de ubicación, horarios y contacto directo */}
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-xs sm:text-sm text-stone-600 dark:text-stone-400">
-              {settings.addressText && (
-                <a
-                  href={settings.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 hover:text-rosebrand-600 dark:hover:text-rosebrand-400 transition-colors"
-                >
-                  <MapPin className="h-4 w-4 text-rosebrand-600 dark:text-rosebrand-400 shrink-0" />
-                  <span>{settings.addressText}</span>
-                </a>
-              )}
-              {settings.openingHours && (
-                <div className="inline-flex items-center gap-1.5">
-                  <Clock className="h-4 w-4 text-rosebrand-600 dark:text-rosebrand-400 shrink-0" />
-                  <span>{settings.openingHours}</span>
-                </div>
-              )}
-            </div>
+            {(hasAddress || hasHours) && (
+              <div className="mt-6 flex flex-wrap items-center gap-4 text-xs sm:text-sm text-stone-600 dark:text-stone-400">
+                {hasAddress && (
+                  hasMaps ? (
+                    <a
+                      href={settings.mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 hover:text-rosebrand-600 dark:hover:text-rosebrand-400 transition-colors"
+                    >
+                      <MapPin className="h-4 w-4 text-rosebrand-600 dark:text-rosebrand-400 shrink-0" />
+                      <span>{settings.addressText}</span>
+                    </a>
+                  ) : (
+                    <div className="inline-flex items-center gap-1.5">
+                      <MapPin className="h-4 w-4 text-rosebrand-600 dark:text-rosebrand-400 shrink-0" />
+                      <span>{settings.addressText}</span>
+                    </div>
+                  )
+                )}
+                {hasHours && (
+                  <div className="inline-flex items-center gap-1.5">
+                    <Clock className="h-4 w-4 text-rosebrand-600 dark:text-rosebrand-400 shrink-0" />
+                    <span>{settings.openingHours}</span>
+                  </div>
+                )}
+              </div>
+            )}
 
-            <div className="mt-7 flex flex-wrap items-center gap-3">
-              <a
-                href={settings.whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors"
-              >
-                <MessageCircle className="h-4 w-4" />
-                <span>Consultar por WhatsApp</span>
-              </a>
+            {(hasWhatsapp || hasInstagram || hasPinterest || hasMaps || isEditMode) && (
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                {hasWhatsapp && (
+                  <a
+                    href={settings.whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    <span>Consultar por WhatsApp</span>
+                  </a>
+                )}
 
-              <a
-                href={settings.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white/80 dark:bg-stone-900/80 hover:bg-stone-100 dark:hover:bg-stone-800 px-4 py-3 text-sm font-semibold text-stone-800 dark:text-stone-200 transition-colors"
-              >
-                <Instagram className="h-4 w-4 text-pink-600 dark:text-pink-400" />
-                <span>Instagram</span>
-              </a>
+                {hasInstagram && (
+                  <a
+                    href={settings.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white/80 dark:bg-stone-900/80 hover:bg-stone-100 dark:hover:bg-stone-800 px-4 py-3 text-sm font-semibold text-stone-800 dark:text-stone-200 transition-colors"
+                  >
+                    <Instagram className="h-4 w-4 text-pink-600 dark:text-pink-400" />
+                    <span>Instagram</span>
+                  </a>
+                )}
 
-              <a
-                href={settings.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white/80 dark:bg-stone-900/80 hover:bg-stone-100 dark:hover:bg-stone-800 px-4 py-3 text-sm font-semibold text-stone-800 dark:text-stone-200 transition-colors"
-              >
-                <MapPin className="h-4 w-4 text-sky-600 dark:text-sky-400" />
-                <span>Cómo llegar</span>
-              </a>
+                {hasPinterest && (
+                  <a
+                    href={settings.pinterestUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white/80 dark:bg-stone-900/80 hover:bg-stone-100 dark:hover:bg-stone-800 px-4 py-3 text-sm font-semibold text-stone-800 dark:text-stone-200 transition-colors"
+                  >
+                    <Palette className="h-4 w-4 text-rose-600 dark:text-rose-400" />
+                    <span>Nails Inspo</span>
+                  </a>
+                )}
 
-              {isEditMode && (
-                <button
-                  type="button"
-                  onClick={onEditSettings}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-stone-900 dark:bg-stone-100 px-4 py-3 text-sm font-semibold text-white dark:text-stone-900 hover:opacity-90 transition-opacity"
-                >
-                  <Pencil className="h-4 w-4" />
-                  <span>Editar Textos y Enlaces</span>
-                </button>
-              )}
-            </div>
+                {hasMaps && (
+                  <a
+                    href={settings.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white/80 dark:bg-stone-900/80 hover:bg-stone-100 dark:hover:bg-stone-800 px-4 py-3 text-sm font-semibold text-stone-800 dark:text-stone-200 transition-colors"
+                  >
+                    <MapPin className="h-4 w-4 text-sky-600 dark:text-sky-400" />
+                    <span>Cómo llegar</span>
+                  </a>
+                )}
+
+                {isEditMode && (
+                  <button
+                    type="button"
+                    onClick={onEditSettings}
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-stone-900 dark:bg-stone-100 px-4 py-3 text-sm font-semibold text-white dark:text-stone-900 hover:opacity-90 transition-opacity"
+                  >
+                    <Pencil className="h-4 w-4" />
+                    <span>Editar Textos y Enlaces</span>
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -356,16 +412,18 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
       </main>
 
       {/* Botón Flotante de Acceso Directo a WhatsApp (Mobile & Desktop) */}
-      <a
-        href={settings.whatsappUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Chat directo por WhatsApp"
-        className="fixed bottom-5 right-5 z-30 inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-500 px-4 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-all"
-      >
-        <MessageCircle className="h-5 w-5" />
-        <span className="hidden sm:inline">WhatsApp Directo</span>
-      </a>
+      {hasWhatsapp && (
+        <a
+          href={settings.whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat directo por WhatsApp"
+          className="fixed bottom-5 right-5 z-30 inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-500 px-4 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-all"
+        >
+          <MessageCircle className="h-5 w-5" />
+          <span className="hidden sm:inline">WhatsApp Directo</span>
+        </a>
+      )}
 
       {/* Footer con Accesos Directos */}
       <footer className="mt-16 border-t border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900">
@@ -375,39 +433,60 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               <p className="font-serif text-lg font-bold text-stone-900 dark:text-white">
                 {settings.businessName}
               </p>
-              <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
-                {settings.addressText} • {settings.openingHours}
-              </p>
+              {(hasAddress || hasHours) && (
+                <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">
+                  {[settings.addressText?.trim(), settings.openingHours?.trim()]
+                    .filter(Boolean)
+                    .join(' • ')}
+                </p>
+              )}
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <a
-                href={settings.whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-emerald-500 hover:text-white px-3.5 py-2 text-xs font-medium transition-colors"
-              >
-                <MessageCircle className="h-4 w-4" />
-                <span>WhatsApp</span>
-              </a>
-              <a
-                href={settings.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-pink-500 hover:text-white px-3.5 py-2 text-xs font-medium transition-colors"
-              >
-                <Instagram className="h-4 w-4" />
-                <span>Instagram</span>
-              </a>
-              <a
-                href={settings.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-sky-500 hover:text-white px-3.5 py-2 text-xs font-medium transition-colors"
-              >
-                <MapPin className="h-4 w-4" />
-                <span>Google Maps</span>
-              </a>
+              {hasWhatsapp && (
+                <a
+                  href={settings.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-emerald-500 hover:text-white px-3.5 py-2 text-xs font-medium transition-colors"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  <span>WhatsApp</span>
+                </a>
+              )}
+              {hasInstagram && (
+                <a
+                  href={settings.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-pink-500 hover:text-white px-3.5 py-2 text-xs font-medium transition-colors"
+                >
+                  <Instagram className="h-4 w-4" />
+                  <span>Instagram</span>
+                </a>
+              )}
+              {hasPinterest && (
+                <a
+                  href={settings.pinterestUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-rose-600 hover:text-white px-3.5 py-2 text-xs font-medium transition-colors"
+                >
+                  <Palette className="h-4 w-4" />
+                  <span>Nails Inspo</span>
+                </a>
+              )}
+              {hasMaps && (
+                <a
+                  href={settings.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-sky-500 hover:text-white px-3.5 py-2 text-xs font-medium transition-colors"
+                >
+                  <MapPin className="h-4 w-4" />
+                  <span>Google Maps</span>
+                </a>
+              )}
             </div>
           </div>
 

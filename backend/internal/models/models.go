@@ -18,6 +18,7 @@ type SiteSettings struct {
 	WhatsAppURL  string    `json:"whatsappUrl"`
 	InstagramURL string    `json:"instagramUrl"`
 	MapsURL      string    `json:"mapsUrl"`
+	PinterestURL string    `json:"pinterestUrl"`
 	AddressText  string    `json:"addressText"`
 	OpeningHours string    `json:"openingHours"`
 	UpdatedAt    time.Time `json:"updatedAt"`

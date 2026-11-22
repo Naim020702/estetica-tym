@@ -15,12 +15,14 @@ type Config struct {
 	WhatsAppURL  string
 	InstagramURL string
 	MapsURL      string
+	PinterestURL string
 }
 
-// Load carga variables desde .env (si existe en el directorio actual o padre) y luego lee el entorno.
+// Load carga variables desde .env (si existe en el directorio actual, padre o abuelo) y luego lee el entorno.
 func Load() *Config {
 	loadEnvFile(".env")
 	loadEnvFile("../.env")
+	loadEnvFile("../../.env")
 
 	dbHost := getEnv("DB_HOST", "localhost")
 	dbPort := getEnv("DB_PORT", "5432")
@@ -40,6 +42,7 @@ func Load() *Config {
 		WhatsAppURL:  getEnv("WHATSAPP_URL", "https://wa.me/5491100000000?text=Hola!%20Quisiera%20consultar%20por%20un%20turno%20o%20servicio."),
 		InstagramURL: getEnv("INSTAGRAM_URL", "https://instagram.com/esteticatym"),
 		MapsURL:      getEnv("MAPS_URL", "https://maps.google.com/?q=Obelisco,Buenos+Aires"),
+		PinterestURL: getEnv("PINTEREST_URL", ""),
 	}
 }
 

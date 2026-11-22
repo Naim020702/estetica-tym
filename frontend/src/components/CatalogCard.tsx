@@ -173,15 +173,17 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({
             </span>
           </div>
 
-          <a
-            href={buildConsultLink()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-xl bg-stone-900 hover:bg-rosebrand-600 dark:bg-stone-800 dark:hover:bg-rosebrand-600 px-3.5 py-2 text-xs font-semibold text-white transition-colors"
-          >
-            <MessageCircle className="h-4 w-4" />
-            <span>Consultar</span>
-          </a>
+          {whatsappUrl?.trim() && (
+            <a
+              href={buildConsultLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-stone-900 hover:bg-rosebrand-600 dark:bg-stone-800 dark:hover:bg-rosebrand-600 px-3.5 py-2 text-xs font-semibold text-white transition-colors"
+            >
+              <MessageCircle className="h-4 w-4" />
+              <span>Consultar</span>
+            </a>
+          )}
         </div>
       </div>
     </article>

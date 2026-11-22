@@ -20,7 +20,7 @@ func (r *CatalogRepository) GetSettings(ctx context.Context, env models.EnvType)
 	var s models.SiteSettings
 	query := `
 		SELECT env, business_name, tagline, hero_title, hero_subtitle,
-		       whatsapp_url, instagram_url, maps_url, address_text, opening_hours, updated_at
+		       whatsapp_url, instagram_url, maps_url, pinterest_url, address_text, opening_hours, updated_at
 		FROM site_settings
 		WHERE env = $1
 	`
@@ -33,6 +33,7 @@ func (r *CatalogRepository) GetSettings(ctx context.Context, env models.EnvType)
 		&s.WhatsAppURL,
 		&s.InstagramURL,
 		&s.MapsURL,
+		&s.PinterestURL,
 		&s.AddressText,
 		&s.OpeningHours,
 		&s.UpdatedAt,
@@ -50,12 +51,13 @@ func (r *CatalogRepository) UpdateDraftSettings(ctx context.Context, s models.Si
 		    whatsapp_url = $5,
 		    instagram_url = $6,
 		    maps_url = $7,
-		    address_text = $8,
-		    opening_hours = $9,
+		    pinterest_url = $8,
+		    address_text = $9,
+		    opening_hours = $10,
 		    updated_at = NOW()
 		WHERE env = 'draft'
 		RETURNING env, business_name, tagline, hero_title, hero_subtitle,
-		          whatsapp_url, instagram_url, maps_url, address_text, opening_hours, updated_at
+		          whatsapp_url, instagram_url, maps_url, pinterest_url, address_text, opening_hours, updated_at
 	`
 	var updated models.SiteSettings
 	err := r.db.QueryRowContext(
@@ -68,6 +70,7 @@ func (r *CatalogRepository) UpdateDraftSettings(ctx context.Context, s models.Si
 		s.WhatsAppURL,
 		s.InstagramURL,
 		s.MapsURL,
+		s.PinterestURL,
 		s.AddressText,
 		s.OpeningHours,
 	).Scan(
@@ -79,6 +82,7 @@ func (r *CatalogRepository) UpdateDraftSettings(ctx context.Context, s models.Si
 		&updated.WhatsAppURL,
 		&updated.InstagramURL,
 		&updated.MapsURL,
+		&updated.PinterestURL,
 		&updated.AddressText,
 		&updated.OpeningHours,
 		&updated.UpdatedAt,
@@ -276,6 +280,7 @@ func (r *CatalogRepository) PublishDraftToLive(ctx context.Context) error {
 		    whatsapp_url  = draft.whatsapp_url,
 		    instagram_url = draft.instagram_url,
 		    maps_url      = draft.maps_url,
+		    pinterest_url = draft.pinterest_url,
 		    address_text  = draft.address_text,
 		    opening_hours = draft.opening_hours,
 		    updated_at    = NOW()
@@ -326,6 +331,7 @@ func (r *CatalogRepository) DiscardDraftFromLive(ctx context.Context) error {
 		    whatsapp_url  = live.whatsapp_url,
 		    instagram_url = live.instagram_url,
 		    maps_url      = live.maps_url,
+		    pinterest_url = live.pinterest_url,
 		    address_text  = live.address_text,
 		    opening_hours = live.opening_hours,
 		    updated_at    = NOW()
@@ -370,10 +376,10 @@ func (r *CatalogRepository) CheckHasDraftDiff(ctx context.Context) (bool, int, e
 	err := r.db.QueryRowContext(ctx, `
 		SELECT COUNT(*)
 		FROM (
-			SELECT business_name, tagline, hero_title, hero_subtitle, whatsapp_url, instagram_url, maps_url, address_text, opening_hours
+			SELECT business_name, tagline, hero_title, hero_subtitle, whatsapp_url, instagram_url, maps_url, pinterest_url, address_text, opening_hours
 			FROM site_settings WHERE env = 'draft'
 			EXCEPT
-			SELECT business_name, tagline, hero_title, hero_subtitle, whatsapp_url, instagram_url, maps_url, address_text, opening_hours
+			SELECT business_name, tagline, hero_title, hero_subtitle, whatsapp_url, instagram_url, maps_url, pinterest_url, address_text, opening_hours
 			FROM site_settings WHERE env = 'live'
 		) AS diff
 	`).Scan(&settingsDiff)

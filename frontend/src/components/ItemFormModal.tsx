@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { CatalogItem, CatalogItemInput, ItemType } from '../types/catalog';
+import { ImageUploadCropper } from './ImageUploadCropper';
 
 interface ItemFormModalProps {
   isOpen: boolean;
@@ -197,18 +198,10 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">
-              URL de Imagen (Opcional)
-            </label>
-            <input
-              type="url"
-              value={form.imageUrl}
-              onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
-              placeholder="https://images.unsplash.com/..."
-              className="mt-1.5 w-full rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-3.5 py-2.5 text-sm text-stone-900 dark:text-white focus:border-rosebrand-500 focus:outline-none"
-            />
-          </div>
+          <ImageUploadCropper
+            currentImageUrl={form.imageUrl}
+            onImageChange={(dataUrl) => setForm((prev) => ({ ...prev, imageUrl: dataUrl }))}
+          />
 
           <div className="flex items-center gap-2.5 pt-1">
             <input

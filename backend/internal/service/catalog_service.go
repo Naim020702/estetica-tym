@@ -87,6 +87,7 @@ func (s *CatalogService) UpdateDraftSettings(ctx context.Context, settings model
 	settings.WhatsAppURL = strings.TrimSpace(settings.WhatsAppURL)
 	settings.InstagramURL = strings.TrimSpace(settings.InstagramURL)
 	settings.MapsURL = strings.TrimSpace(settings.MapsURL)
+	settings.PinterestURL = strings.TrimSpace(settings.PinterestURL)
 	settings.AddressText = strings.TrimSpace(settings.AddressText)
 	settings.OpeningHours = strings.TrimSpace(settings.OpeningHours)
 

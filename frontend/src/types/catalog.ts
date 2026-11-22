@@ -10,6 +10,7 @@ export interface SiteSettings {
   whatsappUrl: string;
   instagramUrl: string;
   mapsUrl: string;
+  pinterestUrl: string;
   addressText: string;
   openingHours: string;
   updatedAt?: string;
